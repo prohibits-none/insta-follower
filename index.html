@@ -3,116 +3,42 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="A fictional Instagram-style 100 follower challenge demo. Not affiliated with Instagram and does not add real followers." />
+  <meta name="description" content="InstaBoost — a playful 100 follower challenge demo." />
   <title>InstaBoost — 100 Follower Challenge</title>
   <style>
     :root{--pink:#ff2d55;--purple:#833ab4;--orange:#ff9f0a;--blue:#405de6;--ink:#161616;--muted:#777;--card:rgba(255,255,255,.86)}
-    *{box-sizing:border-box;margin:0;padding:0}
-    html{scroll-behavior:smooth}
-    body{font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;color:var(--ink);min-height:100vh;background:#fafafa;overflow-x:hidden}
-    body:before{content:"";position:fixed;inset:-20%;z-index:-2;background:radial-gradient(circle at 10% 10%,#ffdc80 0 12%,transparent 28%),radial-gradient(circle at 90% 15%,#ff2d55 0 10%,transparent 30%),radial-gradient(circle at 70% 90%,#833ab4 0 12%,transparent 32%),linear-gradient(135deg,#405de6,#833ab4 35%,#ff2d55 65%,#ffdc80);filter:blur(30px);opacity:.92;animation:drift 14s ease-in-out infinite alternate}
-    body:after{content:"";position:fixed;inset:0;z-index:-1;background:rgba(255,255,255,.68);backdrop-filter:blur(2px)}
-    @keyframes drift{to{transform:scale(1.08) rotate(2deg)}}
-    @keyframes float{50%{transform:translateY(-10px)}}
-    @keyframes pop{0%{transform:scale(.85);opacity:0}70%{transform:scale(1.04)}100%{transform:scale(1);opacity:1}}
-    @keyframes spin{to{transform:rotate(360deg)}}
-    .topbar{position:fixed;top:0;left:0;right:0;z-index:20;padding:14px 22px;display:flex;align-items:center;justify-content:space-between;background:rgba(255,255,255,.72);border-bottom:1px solid rgba(255,255,255,.65);backdrop-filter:blur(18px)}
-    .brand{display:flex;align-items:center;gap:10px;font-weight:900;letter-spacing:-.5px}.logo{width:34px;height:34px;border-radius:11px;display:grid;place-items:center;color:#fff;font-size:18px;background:linear-gradient(135deg,#405de6,#833ab4,#ff2d55,#ffdc80);box-shadow:0 8px 22px #833ab455}
-    .demo-badge{font-size:12px;font-weight:800;padding:7px 11px;border-radius:999px;background:#111;color:#fff;box-shadow:0 6px 18px #0002}
-    main{width:min(1040px,92%);margin:auto;padding:105px 0 70px}
-    .screen{min-height:calc(100vh - 125px);display:none;align-items:center;justify-content:center}.screen.active{display:flex;animation:pop .55s ease both}
-    .hero{text-align:center;max-width:760px}.hero .orb{width:105px;height:105px;margin:0 auto 22px;border-radius:31px;display:grid;place-items:center;color:#fff;font-size:48px;background:linear-gradient(135deg,#405de6 0%,#833ab4 35%,#ff2d55 68%,#ffdc80);box-shadow:0 24px 55px #833ab455;animation:float 4s ease-in-out infinite}
-    h1{font-size:clamp(42px,8vw,82px);line-height:.95;letter-spacing:-4px;margin-bottom:22px}h1 span{background:linear-gradient(90deg,#405de6,#833ab4,#ff2d55);-webkit-background-clip:text;background-clip:text;color:transparent}
-    .lead{font-size:clamp(17px,2.3vw,22px);line-height:1.6;color:#4e4e4e;max-width:650px;margin:0 auto 32px}.fine{font-size:12px;color:#777;margin-top:18px}
-    .btn{border:0;cursor:pointer;border-radius:15px;padding:15px 24px;font-weight:850;font-size:15px;color:#fff;background:linear-gradient(100deg,#405de6,#833ab4,#ff2d55);box-shadow:0 13px 28px #833ab444;transition:transform .25s ease,box-shadow .25s ease,filter .25s ease}.btn:hover{transform:translateY(-3px);box-shadow:0 18px 35px #833ab455;filter:saturate(1.15)}.btn:active{transform:translateY(0)}
-    .panel{width:min(720px,100%);padding:34px;border-radius:30px;background:var(--card);border:1px solid #fff;box-shadow:0 30px 80px #3b1c5720;backdrop-filter:blur(22px)}
-    .panel h2{font-size:clamp(28px,5vw,42px);letter-spacing:-1.8px;margin-bottom:12px}.panel p{color:#626262;line-height:1.65}.notice{margin:22px 0;padding:15px 17px;border-radius:17px;background:#fff7e8;border:1px solid #ffd88a;color:#704c00;font-size:13px;line-height:1.55}
-    .steps{display:grid;gap:12px;margin:24px 0}.step{display:flex;align-items:center;gap:14px;padding:15px;border-radius:18px;background:#fff;border:1px solid #eee;transition:transform .25s ease,box-shadow .25s ease}.step:hover{transform:translateX(5px);box-shadow:0 10px 25px #0000000d}.step.done{border-color:#b9efcf;background:#f2fff7}.check{width:35px;height:35px;border-radius:50%;display:grid;place-items:center;flex:none;background:#f0f0f0;color:#999;font-weight:900;transition:.3s}.done .check{background:#20c76b;color:#fff}.step strong{display:block}.step small{display:block;color:#888;margin-top:3px}.step button{margin-left:auto;background:#111;color:#fff;border:0;border-radius:10px;padding:9px 12px;font-weight:750;cursor:pointer;transition:.2s}.step button:hover{transform:scale(1.04)}.step button:disabled{opacity:.4;cursor:not-allowed;transform:none}
-    .progress-wrap{margin:24px 0 8px}.progress-head{display:flex;justify-content:space-between;font-weight:800;font-size:13px;margin-bottom:9px}.bar{height:13px;background:#eee;border-radius:99px;overflow:hidden}.fill{height:100%;width:0;background:linear-gradient(90deg,#405de6,#833ab4,#ff2d55,#ff9f0a);border-radius:inherit;transition:width .8s cubic-bezier(.2,.8,.2,1)}
-    .stats{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:18px}.stat{padding:18px;border-radius:18px;background:#fff;text-align:center}.stat b{font-size:25px;display:block}.stat span{font-size:12px;color:#888}
-    .complete{text-align:center}.trophy{font-size:66px;animation:float 2.5s ease-in-out infinite}.complete h2{margin-top:10px}.complete .big{font-size:64px;font-weight:950;letter-spacing:-4px;background:linear-gradient(90deg,#405de6,#833ab4,#ff2d55);-webkit-background-clip:text;background-clip:text;color:transparent;margin:14px 0}.confetti{position:fixed;inset:0;pointer-events:none;overflow:hidden}.confetti i{position:absolute;width:8px;height:14px;top:-20px;animation:fall 3.8s linear forwards;opacity:.85}@keyframes fall{to{transform:translateY(110vh) rotate(720deg)}}
-    footer{text-align:center;color:#777;font-size:12px;padding:10px 0 30px}footer a{color:#555}
-    @media(max-width:600px){.topbar{padding:12px 14px}.panel{padding:23px;border-radius:24px}.stats{grid-template-columns:1fr}.step{align-items:flex-start}.step button{padding:8px 9px;font-size:12px}.demo-badge{font-size:10px}}
+    *{box-sizing:border-box;margin:0;padding:0}html{scroll-behavior:smooth}body{font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;color:var(--ink);min-height:100vh;background:#fafafa;overflow-x:hidden}
+    body:before{content:"";position:fixed;inset:-20%;z-index:-2;background:radial-gradient(circle at 10% 10%,#ffdc80 0 12%,transparent 28%),radial-gradient(circle at 90% 15%,#ff2d55 0 10%,transparent 30%),radial-gradient(circle at 70% 90%,#833ab4 0 12%,transparent 32%),linear-gradient(135deg,#405de6,#833ab4 35%,#ff2d55 65%,#ffdc80);filter:blur(30px);opacity:.92;animation:drift 14s ease-in-out infinite alternate}body:after{content:"";position:fixed;inset:0;z-index:-1;background:rgba(255,255,255,.68);backdrop-filter:blur(2px)}
+    @keyframes drift{to{transform:scale(1.08) rotate(2deg)}}@keyframes float{50%{transform:translateY(-10px)}}@keyframes pop{0%{transform:scale(.85);opacity:0}70%{transform:scale(1.04)}100%{transform:scale(1);opacity:1}}@keyframes slideDown{from{opacity:0;transform:translateY(-8px)}to{opacity:1;transform:translateY(0)}}@keyframes fall{to{transform:translateY(110vh) rotate(720deg)}}
+    .topbar{position:fixed;top:0;left:0;right:0;z-index:20;padding:14px 22px;display:flex;align-items:center;justify-content:space-between;background:rgba(255,255,255,.72);border-bottom:1px solid rgba(255,255,255,.65);backdrop-filter:blur(18px)}.brand{display:flex;align-items:center;gap:10px;font-weight:900;letter-spacing:-.5px}.logo{width:34px;height:34px;border-radius:11px;display:grid;place-items:center;color:#fff;font-size:18px;background:linear-gradient(135deg,#405de6,#833ab4,#ff2d55,#ffdc80);box-shadow:0 8px 22px #833ab455}.info-btn{border:1px solid #ddd;background:#fff;color:#222;border-radius:999px;padding:8px 13px;font-weight:800;cursor:pointer;transition:.25s}.info-btn:hover{transform:translateY(-2px);box-shadow:0 8px 20px #0001}.demo-badge{font-size:11px;font-weight:800;padding:7px 11px;border-radius:999px;background:#111;color:#fff;box-shadow:0 6px 18px #0002}
+    .info-pop{display:none;position:fixed;right:20px;top:68px;z-index:30;width:min(330px,calc(100% - 30px));padding:18px;border-radius:18px;background:rgba(255,255,255,.96);border:1px solid #eee;box-shadow:0 20px 50px #0002;backdrop-filter:blur(20px);animation:slideDown .25s ease}.info-pop.show{display:block}.info-pop h3{margin-bottom:7px}.info-pop p{font-size:13px;line-height:1.55;color:#666}.info-pop strong{color:#222}
+    main{width:min(1040px,92%);margin:auto;padding:105px 0 70px}.screen{min-height:calc(100vh - 125px);display:none;align-items:center;justify-content:center}.screen.active{display:flex;animation:pop .55s ease both}.hero{text-align:center;max-width:760px}.hero .orb{width:105px;height:105px;margin:0 auto 22px;border-radius:31px;display:grid;place-items:center;color:#fff;font-size:48px;background:linear-gradient(135deg,#405de6 0%,#833ab4 35%,#ff2d55 68%,#ffdc80);box-shadow:0 24px 55px #833ab455;animation:float 4s ease-in-out infinite}h1{font-size:clamp(42px,8vw,82px);line-height:.95;letter-spacing:-4px;margin-bottom:22px}h1 span{background:linear-gradient(90deg,#405de6,#833ab4,#ff2d55);-webkit-background-clip:text;background-clip:text;color:transparent}.lead{font-size:clamp(17px,2.3vw,22px);line-height:1.6;color:#4e4e4e;max-width:650px;margin:0 auto 32px}.fine{font-size:12px;color:#777;margin-top:18px}.btn{border:0;cursor:pointer;border-radius:15px;padding:15px 24px;font-weight:850;font-size:15px;color:#fff;background:linear-gradient(100deg,#405de6,#833ab4,#ff2d55);box-shadow:0 13px 28px #833ab444;transition:transform .25s ease,box-shadow .25s ease,filter .25s ease}.btn:hover{transform:translateY(-3px);box-shadow:0 18px 35px #833ab455;filter:saturate(1.15)}.btn:active{transform:translateY(0)}
+    .panel{width:min(720px,100%);padding:34px;border-radius:30px;background:var(--card);border:1px solid #fff;box-shadow:0 30px 80px #3b1c5720;backdrop-filter:blur(22px)}.panel h2{font-size:clamp(28px,5vw,42px);letter-spacing:-1.8px;margin-bottom:12px}.panel p{color:#626262;line-height:1.65}.steps{display:grid;gap:12px;margin:24px 0}.step{display:flex;align-items:center;gap:14px;padding:15px;border-radius:18px;background:#fff;border:1px solid #eee;transition:transform .25s ease,box-shadow .25s ease}.step:hover{transform:translateX(5px);box-shadow:0 10px 25px #0000000d}.step.done{border-color:#b9efcf;background:#f2fff7}.check{width:35px;height:35px;border-radius:50%;display:grid;place-items:center;flex:none;background:#f0f0f0;color:#999;font-weight:900;transition:.3s}.done .check{background:#20c76b;color:#fff}.step strong{display:block}.step small{display:block;color:#888;margin-top:3px}.step button{margin-left:auto;background:#111;color:#fff;border:0;border-radius:10px;padding:9px 12px;font-weight:750;cursor:pointer;transition:.2s}.step button:hover{transform:scale(1.04)}.step button:disabled{opacity:.4;cursor:not-allowed;transform:none}
+    .progress-wrap{margin:24px 0 8px}.progress-head{display:flex;justify-content:space-between;font-weight:800;font-size:13px;margin-bottom:9px}.bar{height:13px;background:#eee;border-radius:99px;overflow:hidden}.fill{height:100%;width:0;background:linear-gradient(90deg,#405de6,#833ab4,#ff2d55,#ff9f0a);border-radius:inherit;transition:width .8s cubic-bezier(.2,.8,.2,1)}.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:18px}.stat{padding:18px;border-radius:18px;background:#fff;text-align:center}.stat b{font-size:25px;display:block}.stat span{font-size:12px;color:#888}.complete{text-align:center}.trophy{font-size:66px;animation:float 2.5s ease-in-out infinite}.complete h2{margin-top:10px}.complete .big{font-size:64px;font-weight:950;letter-spacing:-4px;background:linear-gradient(90deg,#405de6,#833ab4,#ff2d55);-webkit-background-clip:text;background-clip:text;color:transparent;margin:14px 0}.complete p{margin-top:10px}.confetti{position:fixed;inset:0;pointer-events:none;overflow:hidden}.confetti i{position:absolute;width:8px;height:14px;top:-20px;animation:fall 3.8s linear forwards;opacity:.85}footer{text-align:center;color:#777;font-size:12px;padding:10px 0 30px}
+    @media(max-width:600px){.topbar{padding:12px 14px}.panel{padding:23px;border-radius:24px}.stats{grid-template-columns:1fr}.step{align-items:flex-start}.step button{padding:8px 9px;font-size:12px}.demo-badge{font-size:10px}.brand{font-size:14px}}
   </style>
 </head>
 <body>
-  <header class="topbar"><div class="brand"><div class="logo">◎</div>InstaBoost</div><div class="demo-badge">FICTIONAL DEMO</div></header>
+  <header class="topbar"><div class="brand"><div class="logo">◎</div>InstaBoost</div><button class="info-btn" onclick="toggleInfo()">ⓘ Info</button></header>
+  <div id="infoPop" class="info-pop"><h3>About this challenge</h3><p><strong>InstaBoost is a fictional game-style demo.</strong> The 100 followers and 3–5 day reward are only part of the simulation. It is not affiliated with Instagram or Meta, does not ask for your password, and cannot add real followers.</p></div>
   <main>
-    <section id="welcome" class="screen active">
-      <div class="hero">
-        <div class="orb">♡</div>
-        <h1>Grow your <span>social vibe.</span></h1>
-        <p class="lead">Welcome to InstaBoost — a playful, fictional 100-follower challenge designed to feel like a polished social-growth experience.</p>
-        <button class="btn" onclick="showScreen('info')">Start the challenge →</button>
-        <p class="fine">No Instagram login • No password • No real follower delivery</p>
-      </div>
-    </section>
-
-    <section id="info" class="screen">
-      <div class="panel">
-        <h2>How the challenge works ✨</h2>
-        <p>Complete the little activities below to fill your progress meter. When you reach 100%, you'll unlock a celebratory result screen.</p>
-        <div class="notice"><strong>Important:</strong> This website is intentionally fictional and is not affiliated with Instagram or Meta. The “100 followers in 3–5 days” message is only part of the game simulation — no followers are actually added to any account.</div>
-        <div class="steps">
-          <div class="step"><div class="check">1</div><div><strong>Discover the challenge</strong><small>Read the quick intro.</small></div><button onclick="showScreen('tasks')">Open</button></div>
-          <div class="step"><div class="check">2</div><div><strong>Complete 5 fun tasks</strong><small>Tap each task when you're ready.</small></div><button onclick="showScreen('tasks')">Continue</button></div>
-          <div class="step"><div class="check">3</div><div><strong>Reach 100%</strong><small>Unlock your fictional reward screen.</small></div><button onclick="showScreen('tasks')">View tasks</button></div>
-        </div>
-        <button class="btn" onclick="showScreen('tasks')">Let's go 🚀</button>
-      </div>
-    </section>
-
-    <section id="tasks" class="screen">
-      <div class="panel">
-        <h2>Your 100-follower challenge</h2>
-        <p>Complete every task to unlock the final celebration.</p>
-        <div class="progress-wrap"><div class="progress-head"><span>Challenge progress</span><span id="percent">0%</span></div><div class="bar"><div id="fill" class="fill"></div></div></div>
-        <div class="stats"><div class="stat"><b id="doneCount">0/5</b><span>Tasks done</span></div><div class="stat"><b id="rewardCount">0</b><span>Followers unlocked</span></div><div class="stat"><b>3–5d</b><span>Fictional ETA</span></div></div>
-        <div id="taskList" class="steps">
-          <div class="step" data-task="0"><div class="check">✓</div><div><strong>Like the vibe ❤️</strong><small>Tap to complete a pretend engagement task.</small></div><button onclick="completeTask(0,this)">Complete</button></div>
-          <div class="step" data-task="1"><div class="check">✓</div><div><strong>Pick your aesthetic 🎨</strong><small>Imagine choosing your perfect profile theme.</small></div><button onclick="completeTask(1,this)">Complete</button></div>
-          <div class="step" data-task="2"><div class="check">✓</div><div><strong>Share positive energy ✨</strong><small>Send a kind message to someone you know.</small></div><button onclick="completeTask(2,this)">Complete</button></div>
-          <div class="step" data-task="3"><div class="check">✓</div><div><strong>Plan one post 📸</strong><small>Think of a post your audience would enjoy.</small></div><button onclick="completeTask(3,this)">Complete</button></div>
-          <div class="step" data-task="4"><div class="check">✓</div><div><strong>Claim the celebration 🎉</strong><small>Finish the final fictional challenge step.</small></div><button onclick="completeTask(4,this)">Complete</button></div>
-        </div>
-        <button id="finishBtn" class="btn" style="width:100%;display:none" onclick="showComplete()">Reveal your result 🎊</button>
-      </div>
-    </section>
-
-    <section id="complete" class="screen">
-      <div class="panel complete">
-        <div class="trophy">🏆</div>
-        <h2>Congratulations!</h2>
-        <div class="big">+100</div>
-        <p><strong>You completed the fictional 100-follower challenge.</strong></p>
-        <p style="margin-top:10px">In the game's story, your reward is scheduled to appear on your Instagram account in <strong>3–5 days</strong>.</p>
-        <div class="notice"><strong>Demo complete:</strong> this is a front-end simulation. It cannot access Instagram and does not add, deliver, or schedule real followers.</div>
-        <button class="btn" onclick="resetChallenge()">Play again ↻</button>
-      </div>
-    </section>
-  </main>
-  <footer>InstaBoost is a fictional fan-made demo. Instagram and Meta are not affiliated with this project.</footer>
-  <div id="confetti" class="confetti"></div>
-
+    <section id="welcome" class="screen active"><div class="hero"><div class="orb">♡</div><h1>Grow your <span>social vibe.</span></h1><p class="lead">Complete a few fun challenges, fill your progress bar, and unlock your 100-follower celebration.</p><button class="btn" onclick="showScreen('tasks')">Start the challenge →</button><p class="fine">No Instagram login • No password</p></div></section>
+    <section id="tasks" class="screen"><div class="panel"><h2>Your 100-follower challenge</h2><p>Complete every task to unlock the final celebration.</p><div class="progress-wrap"><div class="progress-head"><span>Challenge progress</span><span id="percent">0%</span></div><div class="bar"><div id="fill" class="fill"></div></div></div><div class="stats"><div class="stat"><b id="doneCount">0/5</b><span>Tasks done</span></div><div class="stat"><b id="rewardCount">0</b><span>Followers unlocked</span></div><div class="stat"><b>3–5d</b><span>Reward ETA</span></div></div><div id="taskList" class="steps">
+      <div class="step" data-task="0"><div class="check">✓</div><div><strong>Like the vibe ❤️</strong><small>Tap to complete a pretend engagement task.</small></div><button onclick="completeTask(0,this)">Complete</button></div>
+      <div class="step" data-task="1"><div class="check">✓</div><div><strong>Pick your aesthetic 🎨</strong><small>Imagine choosing your perfect profile theme.</small></div><button onclick="completeTask(1,this)">Complete</button></div>
+      <div class="step" data-task="2"><div class="check">✓</div><div><strong>Share positive energy ✨</strong><small>Send a kind message to someone you know.</small></div><button onclick="completeTask(2,this)">Complete</button></div>
+      <div class="step" data-task="3"><div class="check">✓</div><div><strong>Plan one post 📸</strong><small>Think of a post your audience would enjoy.</small></div><button onclick="completeTask(3,this)">Complete</button></div>
+      <div class="step" data-task="4"><div class="check">✓</div><div><strong>Claim the celebration 🎉</strong><small>Finish the final challenge step.</small></div><button onclick="completeTask(4,this)">Complete</button></div>
+    </div><button id="finishBtn" class="btn" style="width:100%;display:none" onclick="showComplete()">Reveal your result 🎊</button></div></section>
+    <section id="complete" class="screen"><div class="panel complete"><div class="trophy">🏆</div><h2>Congratulations!</h2><div class="big">+100</div><p><strong>You completed the 100-follower challenge.</strong></p><p>In the game's story, your reward is scheduled to appear on your Instagram account in <strong>3–5 days</strong>.</p><button class="btn" style="margin-top:22px" onclick="resetChallenge()">Play again ↻</button></div></section>
+  </main><footer>InstaBoost • A playful social-growth challenge</footer><div id="confetti" class="confetti"></div>
   <script>
-    const screens=['welcome','info','tasks','complete'];
-    const completed=new Set();
-    function showScreen(id){screens.forEach(s=>document.getElementById(s).classList.toggle('active',s===id));window.scrollTo({top:0,behavior:'smooth'})}
-    function completeTask(i,btn){
-      if(completed.has(i)) return;
-      completed.add(i);btn.disabled=true;btn.textContent='Done ✓';
-      const card=document.querySelector(`[data-task="${i}"]`);card.classList.add('done');
-      const pct=completed.size*20;document.getElementById('fill').style.width=pct+'%';document.getElementById('percent').textContent=pct+'%';
-      document.getElementById('doneCount').textContent=completed.size+'/5';document.getElementById('rewardCount').textContent=completed.size===5?'100':completed.size*20;
-      if(completed.size===5){document.getElementById('finishBtn').style.display='block';launchMiniConfetti()}
-    }
-    function showComplete(){showScreen('complete');launchMiniConfetti()}
-    function resetChallenge(){location.reload()}
-    function launchMiniConfetti(){
-      const box=document.getElementById('confetti');box.innerHTML='';
-      for(let i=0;i<55;i++){const el=document.createElement('i');el.style.left=Math.random()*100+'%';el.style.animationDelay=Math.random()*.7+'s';el.style.background=['#405de6','#833ab4','#ff2d55','#ff9f0a','#20c76b'][i%5];el.style.transform=`rotate(${Math.random()*360}deg)`;box.appendChild(el)}
-      setTimeout(()=>box.innerHTML='',4500)
-    }
+    const screens=['welcome','tasks','complete'];const completed=new Set();
+    function showScreen(id){screens.forEach(s=>document.getElementById(s).classList.toggle('active',s===id));document.getElementById('infoPop').classList.remove('show');window.scrollTo({top:0,behavior:'smooth'})}
+    function toggleInfo(){document.getElementById('infoPop').classList.toggle('show')}
+    function completeTask(i,btn){if(completed.has(i))return;completed.add(i);btn.disabled=true;btn.textContent='Done ✓';document.querySelector(`[data-task="${i}"]`).classList.add('done');const pct=completed.size*20;document.getElementById('fill').style.width=pct+'%';document.getElementById('percent').textContent=pct+'%';document.getElementById('doneCount').textContent=completed.size+'/5';document.getElementById('rewardCount').textContent=completed.size===5?'100':completed.size*20;if(completed.size===5){document.getElementById('finishBtn').style.display='block';launchMiniConfetti()}}
+    function showComplete(){showScreen('complete');launchMiniConfetti()}function resetChallenge(){location.reload()}
+    function launchMiniConfetti(){const box=document.getElementById('confetti');box.innerHTML='';for(let i=0;i<55;i++){const el=document.createElement('i');el.style.left=Math.random()*100+'%';el.style.animationDelay=Math.random()*.7+'s';el.style.background=['#405de6','#833ab4','#ff2d55','#ff9f0a','#20c76b'][i%5];el.style.transform=`rotate(${Math.random()*360}deg)`;box.appendChild(el)}setTimeout(()=>box.innerHTML='',4500)}
   </script>
 </body>
 </html>
