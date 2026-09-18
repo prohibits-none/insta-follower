@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>InstaBoost — Creator Credits</title>
+<style>
+*{box-sizing:border-box}body{margin:0;font-family:Inter,system-ui,sans-serif;background:#f7f7fb;color:#171717}
+.wrap{max-width:760px;margin:auto;padding:40px 18px}.card{background:#fff;border:1px solid #e8e8ee;border-radius:24px;padding:24px;margin:16px 0;box-shadow:0 12px 35px #0000000d}
+h1{margin:0 0 8px}.muted{color:#666}.balance{font-size:38px;font-weight:900;margin:12px 0}.plans{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
+.plan{border:1px solid #ddd;border-radius:18px;padding:18px}.plan b{font-size:22px}.btn{border:0;border-radius:12px;padding:12px 16px;background:#111;color:#fff;font-weight:800;cursor:pointer;margin-top:12px;width:100%}
+.notice{padding:14px;border-radius:14px;background:#fff8df;border:1px solid #f1df99;line-height:1.5;font-size:14px}
+@media(max-width:560px){.plans{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div class="wrap">
+<h1>Creator Credits</h1>
+<p class="muted">A transparent wallet demo for legitimate creator tools and digital services.</p>
+
+<div class="notice"><b>Demo mode:</b> this page does not charge real money. For real payments, connect a payment provider through a secure backend and verify every payment server-side.</div>
+
+<div class="card">
+<div class="muted">Wallet balance</div>
+<div class="balance"><span id="balance">0</span> credits</div>
+<button class="btn" onclick="resetWallet()">Reset demo wallet</button>
+</div>
+
+<div class="card">
+<h2>Add credits</h2>
+<div class="plans">
+<div class="plan"><b>100</b> credits<br><span class="muted">₹49 demo</span><button class="btn" onclick="addCredits(100)">Add 100</button></div>
+<div class="plan"><b>500</b> credits<br><span class="muted">₹199 demo</span><button class="btn" onclick="addCredits(500)">Add 500</button></div>
+<div class="plan"><b>1,000</b> credits<br><span class="muted">₹349 demo</span><button class="btn" onclick="addCredits(1000)">Add 1,000</button></div>
+<div class="plan"><b>5,000</b> credits<br><span class="muted">₹999 demo</span><button class="btn" onclick="addCredits(5000)">Add 5,000</button></div>
+</div>
+</div>
+
+<div class="card">
+<h2>Transaction history</h2>
+<div id="history" class="muted">No transactions yet.</div>
+</div>
+</div>
+
+<script>
+const KEY="instaboost_demo_wallet";
+let state=JSON.parse(localStorage.getItem(KEY)||'{"balance":0,"history":[]}');
+function save(){localStorage.setItem(KEY,JSON.stringify(state));render()}
+function addCredits(amount){
+  state.balance+=amount;
+  state.history.unshift({type:"Demo credit",amount,time:new Date().toLocaleString()});
+  save();
+}
+function resetWallet(){state={balance:0,history:[]};save()}
+function render(){
+  document.getElementById("balance").textContent=state.balance.toLocaleString();
+  document.getElementById("history").innerHTML=state.history.length
+    ? state.history.map(x=>'<div style="padding:10px 0;border-bottom:1px solid #eee">+'+x.amount.toLocaleString()+' credits — '+x.time+'</div>').join("")
+    : "No transactions yet.";
+}
+render();
+</script>
+</body>
+</html>
